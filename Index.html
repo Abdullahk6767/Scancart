@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ScanCart: trolley-free shopping</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap">
+<style>
+:root{--bg:#f4f7f5;--card:#fff;--ink:#12261f;--mut:#5d7068;--line:#dde6e1;--pri:#0f7a6b;--pri-ink:#fff;--warn:#b45309;--warn-bg:#fef3c7;--ok:#15803d;--ok-bg:#dcfce7;--inf:#0369a1;--inf-bg:#e0f2fe;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1714;--card:#16231f;--ink:#e8f1ed;--mut:#93a8a0;--line:#26372f;--pri:#2dd4bf;--pri-ink:#04201b;--warn:#fbbf24;--warn-bg:#3a2a07;--ok:#4ade80;--ok-bg:#0f2f1b;--inf:#7dd3fc;--inf-bg:#0c2a3d}}
+:root[data-theme="dark"]{--bg:#0d1714;--card:#16231f;--ink:#e8f1ed;--mut:#93a8a0;--line:#26372f;--pri:#2dd4bf;--pri-ink:#04201b;--warn:#fbbf24;--warn-bg:#3a2a07;--ok:#4ade80;--ok-bg:#0f2f1b;--inf:#7dd3fc;--inf-bg:#0c2a3d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.45 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 16px}
+.brand{font:800 21px Manrope,system-ui,sans-serif;letter-spacing:-.02em;background:none;border:0;color:var(--ink);padding:0;cursor:pointer}
+nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px}
+nav button{font:inherit;font-weight:700;border:0;background:none;color:var(--mut);padding:8px 12px;border-radius:9px;cursor:pointer;min-height:40px}
+nav button.on{background:var(--pri);color:var(--pri-ink)}
+.badge{margin-left:6px;background:var(--ink);color:var(--bg);border-radius:99px;padding:0 7px;font-size:12px}
+main{max-width:1100px;margin:0 auto;padding:16px}.narrow{max-width:520px;margin:0 auto}
+h1{font-size:32px;letter-spacing:-.025em;line-height:1.1;margin:0 0 8px;font-weight:800}h2{font-size:18px;margin:12px 0 8px;font-weight:800}
+.mut{color:var(--mut)}.c{text-align:center}.between{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.btn{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 16px;cursor:pointer;min-height:46px}
+.btn.pri{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}.btn.big{width:100%;font-size:17px;padding:15px;margin-top:8px}.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+input:not([type=checkbox]){font:inherit;width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--pri);vertical-align:middle;margin-right:6px}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:13px;font-weight:700;white-space:nowrap}
+.s-shopping,.s-packing{background:var(--inf-bg);color:var(--inf)}.s-submitted{background:var(--warn-bg);color:var(--warn)}.s-ready,.s-paid{background:var(--ok-bg);color:var(--ok)}
+.li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line)}.li:first-child{border-top:0}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:800 18px Manrope,system-ui,sans-serif;cursor:pointer}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cols{display:grid;gap:16px;grid-template-columns:minmax(260px,1fr) minmax(300px,1.4fr)}@media(max-width:720px){.cols{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chip{font:inherit;font-weight:700;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}.chip.on{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+.row2{display:flex;gap:8px;margin:12px 0 8px}.row2 .btn{flex:none}
+.num{font-weight:800;font-size:60px;letter-spacing:-.03em;line-height:1.05}.tot{font-size:26px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}.st{font-size:13px;font-weight:700;padding:8px 6px;border-radius:10px;background:var(--bg);color:var(--mut)}.st.on{background:var(--pri);color:var(--pri-ink)}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--ok-bg);color:var(--ok);font-size:34px;font-weight:800;display:grid;place-items:center;margin:0 auto 12px}
+.bar{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:0 -6px 20px rgba(0,0,0,.08)}.bar b{font-size:21px}
+.role,.qrow{font:inherit;color:inherit;text-align:left;cursor:pointer}.role{display:flex;flex-direction:column;gap:6px}.role b{font-size:22px}
+.qrow{display:flex;width:100%;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px}.qrow.sel{border-color:var(--pri);box-shadow:inset 0 0 0 2px var(--pri)}
+.foot{text-align:center;color:var(--mut);font-size:13px;padding:8px 16px 24px}
+.overlay{position:fixed;inset:0;background:#000;z-index:20;display:flex;align-items:center;justify-content:center}
+.overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame{position:relative;width:78%;max-width:380px;aspect-ratio:3/2;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 100vmax rgba(0,0,0,.5)}
+.overlay .x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px}
+.hint{position:absolute;bottom:calc(32px + env(safe-area-inset-bottom,0px));width:100%;margin:0;text-align:center;color:#fff}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;max-width:90vw;text-align:center}.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header><button class="brand" onclick="go('')">ScanCart</button><nav id="nav" aria-label="Choose a view"></nav></header>
+<main id="view"></main>
+<footer id="mode" class="foot"></footer>
+<div id="scan" class="overlay" hidden><video id="vid" playsinline muted></video><div class="frame"></div><button class="btn x" onclick="closeScan()">Done</button><p class="hint">Point the camera at the barcode</p></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+// Replace this list with your store’s real products and barcodes: [name, price]
+// Change these PINs before opening the store. They gate the Staff and Counter screens.
+const CUR='₹',TAX=0,LS='scancart.orders',MY='scancart.my',PINS={staff:'1234',counter:'5678'};
+const CATALOG=[
+  ['India Gate Basmati Rice 1 kg',129,'6902251106931'],
+  ['Qwality White Bread 400 g',45,'8906007610018'],
+  ['Whole Wheat Atta 5 kg',265],
+  ['Toor Dal 500 g',92],
+  ['Moong Dal 500 g',85],
+  ['Chana Dal 500 g',68],
+  ['Masoor Dal 500 g',72],
+  ['Sunflower Oil 1 L',145],
+  ['Mustard Oil 1 L',165],
+  ['Full-Cream Milk 1 L',68],
+  ['Toned Milk 500 ml',35],
+  ['Glucose Biscuits 200 g',30],
+  ['Marie Biscuits 250 g',35],
+  ['Cream Biscuits 100 g',20],
+  ['Salted Biscuits 200 g',25],
+  ['Whole Wheat Atta 1 kg',58],
+  ['Basmati Rice 5 kg',599],
+  ['Sugar 1 kg',48],
+  ['Iodized Salt 1 kg',22],
+  ['Tea 250 g',135],
+  ['Cooking Ghee 500 ml',295],
+  ['Farm Eggs, 12 pack',96],
+  ['Salted Butter 100 g',58],
+  ['Cornflakes 475 g',189],
+  ['Instant Noodles, 4 pack',56]
+].map(([name,price,barcode],i)=>({name,price,code:barcode||('89010000'+String(i+1).padStart(5,'0'))}));
+const P={};CATALOG.forEach(p=>P[p.code]=p);
+const SL={shopping:'Shopping',submitted:'Waiting for staff',packing:'Being packed',ready:'Ready at counter',paid:'Paid'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>CUR+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const tot=o=>o.items.reduce((s,i)=>s+i.price*i.qty,0),cnt=o=>o.items.reduce((s,i)=>s+i.qty,0),fin=o=>tot(o)*(1+TAX);
+const ago=t=>{const m=Math.floor((Date.now()-t)/6e4);return m<1?'just now':m+' min ago'};
+let orders={},dbc=null,mode='demo',role='',myId=null,sel=null,pm='Cash',samples=false;
+const L=s=>Object.values(orders).filter(o=>o.status===s).sort((a,b)=>(a.sentAt||a.createdAt)-(b.sentAt||b.createdAt));
+try{myId=localStorage.getItem(MY)}catch(e){}
+let unlocked={};try{Object.keys(PINS).forEach(r=>{if(sessionStorage.getItem('scancart.u.'+r))unlocked[r]=true})}catch(e){}
+
+/* ---------- storage: shared db when available, else this browser only ---------- */
+function loadLocal(){try{orders=JSON.parse(localStorage.getItem(LS)||'{}')}catch(e){orders={}}}
+async function save(o){
+  o.updatedAt=Date.now();orders[o.id]=o;render();
+  if(dbc){try{await dbc.doc(o.id).set(o)}catch(e){toast('Couldn’t save. You may need Contributor access.')}}
+  else try{localStorage.setItem(LS,JSON.stringify(orders))}catch(e){}
+}
+
+/* ---------- toast, beep ---------- */
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+function beep(ok){try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=ok?880:220;g.gain.value=.08;o.connect(g);g.connect(c.destination);o.onended=()=>c.close();o.start();o.stop(c.currentTime+.12)}catch(e){}}
+
+/* ---------- customer actions ---------- */
+function go(r){role=r;try{history.replaceState(null,'','#'+r)}catch(e){}render();scrollTo(0,0)}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function start(){const o={id:uid(),num:'A'+(100+Math.floor(Math.random()*900)),name:($('#nm').value||'').trim().slice(0,30)||'Guest',items:[],status:'shopping',createdAt:Date.now()};myId=o.id;try{localStorage.setItem(MY,myId)}catch(e){}save(o)}
+function fresh(){myId=null;samples=false;try{localStorage.removeItem(MY)}catch(e){}render()}
+function addCode(c){
+  const o=orders[myId];if(!o||o.status!=='shopping')return;
+  const p=P[String(c).trim()];
+  if(!p){beep(0);toast('Barcode '+String(c).trim()+' isn’t in the catalog');return}
+  const i=o.items.find(x=>x.code===p.code);
+  i?i.qty++:o.items.push({code:p.code,name:p.name,price:p.price,qty:1});
+  beep(1);navigator.vibrate&&navigator.vibrate(40);toast('Added '+p.name);save(o);
+}
+function manual(){const e=$('#cd'),v=e.value;e.value='';if(v.trim())addCode(v)}
+function chg(c,d){const o=orders[myId],i=o.items.find(x=>x.code===c);i.qty+=d;if(i.qty<1)o.items=o.items.filter(x=>x!==i);save(o)}
+function send(){const o=orders[myId];o.status='submitted';o.sentAt=Date.now();o.picked=[];save(o)}
+function reopen(){const o=orders[myId];o.status='shopping';save(o)}
+let stream,timer,last='',lastT=0,scanControls=null;
+async function openScan(){
+  // Request camera permission before checking which barcode API is supported.
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    toast('Camera access needs HTTPS or localhost. Type the code or tap a sample item.');
+    return;
+  }
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'}},
+      audio:false
+    });
+    const v=$('#vid');
+    v.srcObject=stream;
+    await v.play();
+    $('#scan').hidden=false;
+
+    if('BarcodeDetector' in window){
+      const formats=['ean_13','ean_8','upc_a','upc_e','code_128'];
+      let detector;
+      try{detector=new BarcodeDetector({formats})}
+      catch(e){detector=new BarcodeDetector()}
+      timer=setInterval(async()=>{try{
+        const results=await detector.detect(v);
+        if(results[0])handleScannedCode(results[0].rawValue);
+      }catch(e){}},300);
+    }else{
+      // Fallback for browsers without the native Barcode Detection API.
+      await loadZXingFallback();
+      if(!window.ZXing||!window.ZXing.BrowserMultiFormatReader){
+        closeScan();
+        toast('Barcode scanner could not load. Check internet and use HTTPS, or type the code.');
+        return;
+      }
+      const reader=new window.ZXing.BrowserMultiFormatReader();
+      scanControls=await reader.decodeFromVideoElement(v,(result,err)=>{
+        if(result)handleScannedCode(result.getText());
+      });
+    }
+  }catch(e){
+    closeScan();
+    if(e&&e.name==='NotAllowedError'){
+      toast('Camera permission denied. Allow camera access in Chrome site settings, then try again.');
+    }else if(e&&e.name==='NotFoundError'){
+      toast('No camera found on this device. Type the code or tap a sample item.');
+    }else if(e&&e.name==='NotReadableError'){
+      toast('Camera is busy in another app. Close that app and try again.');
+    }else if(location.protocol==='file:'){
+      toast('Open this app from an HTTPS website to use the camera. Chrome blocks camera access for local files.');
+    }else{
+      toast('Could not open camera. Allow camera access and use HTTPS, or type the code.');
+    }
+  }
+}
+function handleScannedCode(c){
+  if(c!==last||Date.now()-lastT>2000){last=c;lastT=Date.now();addCode(c)}
+}
+async function loadZXingFallback(){
+  if(window.ZXing&&window.ZXing.BrowserMultiFormatReader)return;
+  if(window.__scancartZXingLoading){await window.__scancartZXingLoading;return}
+  window.__scancartZXingLoading=new Promise((resolve,reject)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
+    s.onload=resolve;s.onerror=reject;document.head.appendChild(s);
+  });
+  await window.__scancartZXingLoading;
+}
+function closeScan(){clearInterval(timer);timer=null;if(scanControls){try{scanControls.stop()}catch(e){}scanControls=null}if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;const v=$('#vid');if(v)v.srcObject=null;$('#scan').hidden=true}
+
+/* ---------- staff + counter actions ---------- */
+function setS(id,s){const o=orders[id];o.status=s;save(o)}
+function pick(id,c){const o=orders[id],p=o.picked||[];o.picked=p.includes(c)?p.filter(x=>x!==c):[...p,c];save(o)}
+function pay(id){const o=orders[id];o.status='paid';o.payMethod=pm;o.paid=fin(o);o.paidAt=Date.now();save(o);toast('Payment recorded')}
+
+/* ---------- views ---------- */
+function vHome(){return `<div style="margin:12px 0 20px"><h1>Shop without a trolley</h1><p class="mut" style="max-width:56ch">Scan items as you walk. Staff bring your order to the counter, you pay, and you’re done. Choose a view to start.</p></div><div class="grid">${[['customer','Customer','Scan items as you shop and send your order to staff.'],['staff','Staff','Pack new orders and bring them to the counter.'],['counter','Counter','Bill ready orders and take payment.']].map(([r,t,d])=>`<button class="card role" onclick="go('${r}')"><b>${t}</b><span class="mut">${d}${PINS[r]?' PIN required.':''}</span></button>`).join('')}</div>`}
+
+function vCustomer(){
+  const o=orders[myId];
+  if(!o)return `<div class="narrow"><div class="card"><h1>Start your order</h1><p class="mut">Scan each item as you pick it up. Staff will pack your order and bring it to the counter.</p><label for="nm" class="mut">Your name</label><input id="nm" placeholder="Optional" autocomplete="name" maxlength="30"><button class="btn pri big" onclick="start()">Start shopping</button></div></div>`;
+  const ro=o.items.map(i=>`<div class="li"><span>${esc(i.name)} <span class="mut">×${i.qty}</span></span><b>${money(i.price*i.qty)}</b></div>`).join('');
+  if(o.status==='paid')return `<div class="narrow"><div class="card c"><div class="tick">✓</div><h1>Thank you!</h1><p class="mut">Paid ${money(o.paid)} by ${esc(o.payMethod)}. Order ${o.num}.</p></div><div class="card">${ro}</div><button class="btn pri big" onclick="fresh()">Start a new order</button></div>`;
+  if(o.status!=='shopping'){
+    const si={submitted:0,packing:1,ready:2}[o.status],msg={submitted:'Staff will collect your items shortly.',packing:'Staff are packing your items.',ready:'Your items are at the counter. Show this number to pay.'}[o.status];
+    return `<div class="narrow"><div class="card c"><div class="mut">Your order number</div><div class="num">${o.num}</div><p>${msg}</p><div class="steps">${['Sent to staff','Being packed','Ready at counter'].map((s,i)=>`<div class="st ${i<=si?'on':''}">${s}</div>`).join('')}</div></div><div class="card">${ro}<div class="li"><b>Total</b><b>${money(tot(o))}</b></div></div>${o.status==='submitted'?'<button class="btn big" onclick="reopen()">Add more items</button>':''}</div>`;
+  }
+  const rows=o.items.map(i=>`<div class="li"><div><div>${esc(i.name)}</div><div class="mut">${money(i.price)}</div></div><div class="qty"><button aria-label="Remove one ${esc(i.name)}" onclick="chg('${i.code}',-1)">−</button><b>${i.qty}</b><button aria-label="Add one ${esc(i.name)}" onclick="chg('${i.code}',1)">+</button></div></div>`).join('');
+  return `<div class="narrow"><div class="card between"><div><div class="mut">Order for ${esc(o.name)}</div><b style="font-size:24px">${o.num}</b></div><span class="pill s-shopping">Shopping</span></div>
+<div class="card"><button class="btn pri big" style="margin:0" onclick="openScan()">Scan an item</button><div class="row2"><input id="cd" inputmode="numeric" placeholder="Or type the barcode" aria-label="Barcode" onkeydown="if(event.key==='Enter')manual()"><button class="btn" onclick="manual()">Add</button></div><button class="btn" onclick="samples=!samples;render()">${samples?'Hide':'Show'} sample items</button>${samples?`<div class="chips">${CATALOG.map(p=>`<button class="chip" onclick="addCode('${p.code}')">${esc(p.name)}</button>`).join('')}</div>`:''}</div>
+<div class="card">${rows||'<p class="mut" style="margin:0">Your cart is empty. Scan your first item.</p>'}</div>
+<div class="bar"><div><div class="mut">${cnt(o)} item${cnt(o)==1?'':'s'}</div><b>${money(tot(o))}</b></div><button class="btn pri" ${o.items.length?'':'disabled'} onclick="send()">Send to staff</button></div></div>`;
+}
+
+function sCard(o){
+  const pk=o.picked||[],done=o.items.every(i=>pk.includes(i.code));let b='';
+  if(o.status==='submitted')b=o.items.map(i=>`<div class="li"><span>${esc(i.name)}</span><b>×${i.qty}</b></div>`).join('')+`<button class="btn pri big" onclick="setS('${o.id}','packing')">Start packing</button>`;
+  else if(o.status==='packing')b=o.items.map(i=>`<label class="li"><span><input type="checkbox" ${pk.includes(i.code)?'checked':''} onchange="pick('${o.id}','${i.code}')">${esc(i.name)}</span><b>×${i.qty}</b></label>`).join('')+`<div class="mut" style="margin-top:6px">${o.items.filter(i=>pk.includes(i.code)).length} of ${o.items.length} items packed</div><button class="btn pri big" ${done?'':'disabled'} onclick="setS('${o.id}','ready')">Bring to counter</button>`;
+  else b=`<div class="li"><span class="mut">${cnt(o)} items</span><b>${money(tot(o))}</b></div><div class="mut">Waiting for payment at the counter.</div>`;
+  return `<div class="card"><div class="between"><div><b style="font-size:22px">${o.num}</b> <span class="mut">${esc(o.name)}</span></div><span class="mut">${ago(o.sentAt||o.createdAt)}</span></div>${b}</div>`;
+}
+function vStaff(){
+  const n=L('shopping').length,col=(t,s,e)=>`<section><h2>${t} <span class="mut">${L(s).length}</span></h2>${L(s).map(sCard).join('')||`<p class="mut">${e}</p>`}</section>`;
+  return `<h1>Staff</h1><p class="mut">${n} customer${n==1?'':'s'} still shopping</p><div class="grid">${col('New orders','submitted','No new orders.')}${col('Packing','packing','Nothing is being packed.')}${col('At the counter','ready','Nothing is waiting for payment.')}</div>`;
+}
+
+function vCounter(){
+  const R=L('ready'),S=[...L('submitted'),...L('packing')],day=new Date().toDateString();
+  const D=Object.values(orders).filter(o=>o.status==='paid'&&new Date(o.paidAt).toDateString()===day);
+  if(!orders[sel]||orders[sel].status!=='ready')sel=R[0]?R[0].id:null;
+  const o=orders[sel];
+  const q=R.map(r=>`<button class="card qrow ${r.id===sel?'sel':''}" onclick="sel='${r.id}';render()"><b style="font-size:20px">${r.num}</b><span class="mut">${esc(r.name)}</span><b>${money(fin(r))}</b></button>`).join('')||'<p class="mut">No orders are waiting for payment.</p>';
+  const bill=o?`<div class="card"><div class="between"><h2 style="margin:0">Order ${o.num}</h2><span class="mut">${esc(o.name)}</span></div>${o.items.map(i=>`<div class="li"><span>${esc(i.name)} <span class="mut">×${i.qty}</span></span><span>${money(i.price*i.qty)}</span></div>`).join('')}${TAX?`<div class="li"><span class="mut">Tax</span><span>${money(tot(o)*TAX)}</span></div>`:''}<div class="li"><b>Total</b><b class="tot">${money(fin(o))}</b></div><div class="chips">${['Cash','Card','UPI'].map(m=>`<button class="chip ${pm===m?'on':''}" onclick="pm='${m}';render()">${m}</button>`).join('')}</div><button class="btn pri big" onclick="pay('${o.id}')">Confirm ${pm} payment</button></div>`:'<div class="card"><p class="mut" style="margin:0">Select a ready order to bill it.</p></div>';
+  return `<h1>Counter</h1><div class="cols"><div><h2>Ready for payment</h2>${q}<h2>On the way</h2><div class="card">${S.map(r=>`<div class="li"><span><b>${r.num}</b> ${esc(r.name)}</span><span class="pill s-${r.status}">${SL[r.status]}</span></div>`).join('')||'<span class="mut">No orders in progress.</span>'}</div></div><div>${bill}<div class="card between"><span class="mut">Paid today (${D.length})</span><b>${money(D.reduce((s,x)=>s+(x.paid||0),0))}</b></div></div></div>`;
+}
+
+function vPin(){return `<div class="narrow"><div class="card c"><h1>${role==='staff'?'Staff':'Counter'} sign-in</h1><p class="mut">Enter your PIN to continue.</p><input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="PIN" aria-label="PIN" onkeydown="if(event.key==='Enter')unlock()"><button class="btn pri big" onclick="unlock()">Unlock</button></div></div>`}
+function unlock(){const e=$('#pin');if(e.value===PINS[role]){unlocked[role]=true;try{sessionStorage.setItem('scancart.u.'+role,'1')}catch(x){}render()}else{e.value='';toast('Wrong PIN. Try again.')}}
+function lock(){unlocked[role]=false;try{sessionStorage.removeItem('scancart.u.'+role)}catch(x){}go('')}
+function render(){
+  const a=document.activeElement,id=a&&a.id,v=a&&a.value;
+  $('#nav').innerHTML=[['customer','Customer',0],['staff','Staff',L('submitted').length],['counter','Counter',L('ready').length]].map(([r,t,n])=>`<button class="${role===r?'on':''}" onclick="go('${r}')">${t}${n&&(!PINS[r]||unlocked[r])?`<span class="badge">${n}</span>`:''}</button>`).join('')+(PINS[role]&&unlocked[role]?'<button onclick="lock()">Lock</button>':'');
+  $('#view').innerHTML=PINS[role]&&!unlocked[role]?vPin():role==='customer'?vCustomer():role==='staff'?vStaff():role==='counter'?vCounter():vHome();
+  $('#mode').textContent=mode==='live'?'Live sync is on. Orders are shared across devices.':'Demo mode: orders stay in this browser only.';
+  if(id){const n=document.getElementById(id);if(n&&n!==document.activeElement){if(v!=null&&'value' in n)n.value=v;n.focus()}}
+}
+
+/* ---------- start ---------- */
+role=location.hash.slice(1);if(!['customer','staff','counter'].includes(role))role='';
+loadLocal();addEventListener('storage',e=>{if(mode!=='live'&&e.key===LS){loadLocal();render()}});
+render();setInterval(render,30000);
+(async()=>{try{
+  const db=window.claude&&await window.claude.use('db');if(!db)return;
+  dbc=db.collection('orders');mode='live';orders={};
+  dbc.onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=JSON.parse(JSON.stringify(d.data()))});orders=m;render()},e=>{mode='demo';dbc=null;loadLocal();render()});
+  render();
+}catch(e){}})();
+</script>
+</body>
+</html>
