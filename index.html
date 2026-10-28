@@ -91,7 +91,19 @@ async function save(o){
 
 /* ---------- toast, beep ---------- */
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
-function beep(ok){try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=ok?880:220;g.gain.value=.08;o.connect(g);g.connect(c.destination);o.onended=()=>c.close();o.start();o.stop(c.currentTime+.12)}catch(e){}}
+let AC=null;
+function audioCtx(){try{if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C()}if(AC&&AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+['pointerdown','touchstart','click','keydown'].forEach(ev=>addEventListener(ev,audioCtx,{passive:true}));
+function beep(ok){
+  const c=audioCtx();if(!c)return;
+  try{
+    const t=c.currentTime,g=c.createGain();g.connect(c.destination);
+    const tone=(f,st,d)=>{const o=c.createOscillator();o.type=ok?'square':'sawtooth';o.frequency.value=f;o.connect(g);o.start(st);o.stop(st+d)};
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.35,t+.01);
+    if(ok){tone(1800,t,.14);g.gain.setValueAtTime(.35,t+.12);g.gain.linearRampToValueAtTime(0,t+.15)}
+    else{tone(220,t,.1);tone(180,t+.14,.18);g.gain.setValueAtTime(.35,t+.3);g.gain.linearRampToValueAtTime(0,t+.34)}
+  }catch(e){}
+}
 
 /* ---------- customer actions ---------- */
 function go(r){role=r;try{history.replaceState(null,'','#'+r)}catch(e){}render();scrollTo(0,0)}
