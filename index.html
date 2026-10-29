@@ -67,7 +67,8 @@ const CATALOG=[
   ['Parle-G Biscuits',10,'8901719101038'],
   ['Fortune Sunflower Oil 1 L',180,'8906007280242'],
   ['Kwality Bread',45,'8906007610018'],
-  ['Pepsodent 150 g',99,'8909106031128']
+  ['Pepsodent 150 g',99,'8909106031128'],
+  ['Sundaram A4 Notebook 200 Pages',45,'8902242721564']
 ].map(([name,price,barcode],i)=>({name,price,code:barcode||('89010000'+String(i+1).padStart(5,'0'))}));
 const P={};CATALOG.forEach(p=>P[p.code]=p);
 const SL={shopping:'Shopping',submitted:'Waiting for staff',packing:'Being packed',ready:'Ready at counter',paid:'Paid'};
