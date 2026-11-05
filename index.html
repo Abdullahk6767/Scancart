@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#17382b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
 <title>PocketMart - Smart Shopping. Zero Trolley Hassle.</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
@@ -27,8 +31,8 @@
   --danger: #a1392d;
   --danger-50: #f6e3df;
   --radius: 16px;
-  --shadow: 0 1px 2px rgba(23, 56, 43, .06), 0 8px 20px rgba(23, 56, 43, .06);
-  --shadow-lg: 0 18px 40px rgba(23, 56, 43, .18);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 8px 20px rgba(0, 0, 0, .06);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, .2);
   --sidebar-w: 248px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,8 +66,8 @@ img { max-width: 100%; }
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
 }
 .brand-name { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem; color: #fff; line-height: 1; }
-.brand-sub { font-size: .68rem; color: #a9bba6; margin-top: 3px; letter-spacing: .02em; }
-.side-label { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: #8ea48b; padding: 6px 12px; }
+.brand-sub { font-size: .72rem; color: #a9bba6; margin-top: 3px; letter-spacing: .02em; }
+.side-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: #8ea48b; padding: 6px 12px; }
 .side-link {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
   background: transparent; border: 0; color: #cdd9ca; padding: 11px 12px; border-radius: 12px;
@@ -97,7 +101,7 @@ img { max-width: 100%; }
 .icon-btn:hover { background: var(--hunter-50); }
 .count-dot {
   position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px; padding: 0 5px;
-  border-radius: 999px; background: var(--ochre); color: #fff; font-size: .65rem; font-weight: 800;
+  border-radius: 999px; background: var(--ochre); color: #fff; font-size: .7rem; font-weight: 800;
   display: none; align-items: center; justify-content: center;
 }
 .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 22px 24px 40px; flex: 1; }
@@ -125,9 +129,9 @@ img { max-width: 100%; }
 .btn:active { transform: scale(.98); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 .btn-primary { background: var(--hunter); color: #fff; }
-.btn-primary:hover:not(:disabled) { background: var(--hunter-600); box-shadow: 0 6px 14px rgba(53, 94, 59, .28); }
+.btn-primary:hover:not(:disabled) { background: var(--hunter-600); box-shadow: 0 4px 10px rgba(0, 0, 0, .16); }
 .btn-ochre { background: var(--ochre); color: #fff; }
-.btn-ochre:hover:not(:disabled) { background: var(--ochre-600); box-shadow: 0 6px 14px rgba(154, 107, 23, .28); }
+.btn-ochre:hover:not(:disabled) { background: var(--ochre-600); box-shadow: 0 4px 10px rgba(0, 0, 0, .16); }
 .btn-outline { background: var(--surface); color: var(--forest); border-color: var(--taupe); }
 .btn-outline:hover:not(:disabled) { background: var(--hunter-50); }
 .btn-ghost-light { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.3); }
@@ -152,7 +156,7 @@ img { max-width: 100%; }
 .sla-warn { background: var(--ochre-50); color: var(--ochre-600); }
 .sla-over { background: var(--danger-50); color: var(--danger); animation: pulse 1.6s infinite; }
 @keyframes pulse { 50% { opacity: .65; } }
-.tag { display: inline-block; font-size: .68rem; font-weight: 700; color: var(--taupe-700); background: var(--surface-2); padding: 2px 9px; border-radius: 999px; }
+.tag { display: inline-block; font-size: .72rem; font-weight: 700; color: var(--taupe-700); background: var(--surface-2); padding: 2px 9px; border-radius: 999px; }
 input:not([type=checkbox]), select, textarea {
   width: 100%; font-family: inherit; font-size: .9rem; padding: 11px 14px; border-radius: 12px;
   border: 1px solid var(--taupe-200); background: #fff; color: var(--text);
@@ -183,10 +187,6 @@ label.field input, label.field select { margin-top: 5px; }
   background: var(--forest); color: #fff; border-radius: 24px; padding: 40px; overflow: hidden;
   box-shadow: var(--shadow-lg); margin-bottom: 26px;
 }
-.eyebrow {
-  display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  color: #e9d29b; background: rgba(154, 107, 23, .35); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px;
-}
 .hero h1 { font-size: clamp(2rem, 4.2vw, 3.1rem); font-weight: 800; margin-bottom: 14px; }
 .hero h1 span { color: #e3bd6a; display: block; }
 .hero p { color: #c9d6c6; max-width: 480px; margin-bottom: 24px; }
@@ -206,25 +206,25 @@ label.field input, label.field select { margin-top: 5px; }
 .step-card { position: relative; }
 .step-num {
   position: absolute; top: 16px; right: 18px; font-family: 'Outfit', sans-serif; font-weight: 800;
-  font-size: 2rem; color: var(--taupe-200);
+  font-size: 2rem; color: #9a8b6b;
 }
 .feat-ico { width: 44px; height: 44px; border-radius: 13px; background: var(--hunter-50); color: var(--hunter); margin-bottom: 12px; }
 .feat-ico.ochre { background: var(--ochre-50); color: var(--ochre); }
-.step-card h4, .benefit h4 { font-size: 1rem; margin-bottom: 5px; }
+.step-card h3, .benefit h3 { font-size: 1rem; margin-bottom: 5px; }
 .step-card p, .benefit p { font-size: .85rem; color: var(--muted); }
 .promo {
   background: var(--ochre); color: #fff; border-radius: 22px; padding: 28px 32px; margin: 26px 0 10px;
   display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap;
 }
 .promo h3 { font-size: 1.4rem; margin-bottom: 4px; }
-.promo p { color: #f6e6c2; font-size: .9rem; max-width: 520px; }
+.promo p { color: #fff; font-size: .9rem; max-width: 520px; }
 .promo .btn { background: #fff; color: var(--ochre-600); }
 .promo .btn:hover { background: var(--ochre-50); }
 
 /* ---------- Customer ---------- */
 .cust-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr); gap: 18px; align-items: start; }
 .cust-grid .cart-col { position: sticky; top: 80px; }
-.session-card { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; border-left: 5px solid var(--hunter); }
+.session-card { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .session-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; color: var(--taupe-700); }
 .session-id { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.9rem; color: var(--forest); line-height: 1.2; }
 .scan-cta {
@@ -236,7 +236,12 @@ label.field input, label.field select { margin-top: 5px; }
 .scan-cta p { font-size: .8rem; color: #b8c8b5; }
 .scan-cta .grow { flex: 1; min-width: 160px; }
 .manual-row { display: flex; gap: 8px; margin-bottom: 18px; }
-.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; max-width: 100%; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex-shrink: 0; }
+/* Grid and flex children must be allowed to shrink, or wide content pushes the page sideways */
+.cust-grid > *, .grid > *, .card, .card-head > * { min-width: 0; }
+.card, .container { max-width: 100%; }
 .chip {
   background: var(--surface); border: 1px solid var(--taupe-200); color: var(--taupe-700);
   padding: 7px 14px; border-radius: 999px; font-size: .78rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all .15s;
@@ -253,7 +258,7 @@ label.field input, label.field select { margin-top: 5px; }
 .pc-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .pc-body { padding: 11px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
 .pc-body h4 { font-size: .85rem; font-weight: 700; line-height: 1.3; }
-.pc-meta { font-size: .68rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.pc-meta { font-size: .72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 .pc-foot { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 6px; }
 .pc-foot b { font-family: 'Outfit', sans-serif; font-size: 1.05rem; color: var(--forest); }
 .cart-row {
@@ -320,12 +325,12 @@ label.field input, label.field select { margin-top: 5px; }
   display: none; max-width: min(380px, calc(100vw - 32px));
 }
 canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
-.scanner-viewport { position: relative; width: 100%; height: 280px; background: #000; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.scanner-viewport { position: relative; width: min(100%, 340px, calc(50vh * .75)); margin: 0 auto; aspect-ratio: 3 / 4; background: #000; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .scanner-viewport video { width: 100%; height: 100%; object-fit: cover; }
-.scanner-laser { position: absolute; left: 12%; right: 12%; height: 2px; background: #e3bd6a; box-shadow: 0 0 10px #e3bd6a; animation: laserScan 2s infinite ease-in-out; pointer-events: none; }
+.scanner-laser { position: absolute; left: 12%; right: 12%; height: 3px; background: #e3bd6a; animation: laserScan 2s infinite ease-in-out; pointer-events: none; }
 .scanner-laser.paused { display: none; }
-@keyframes laserScan { 0%, 100% { top: 25%; } 50% { top: 75%; } }
-.scanner-frame { position: absolute; left: 8%; right: 8%; top: 18%; bottom: 18%; border: 2px solid rgba(255,255,255,.6); border-radius: 12px; box-shadow: 0 0 0 999px rgba(0,0,0,.35); pointer-events: none; }
+@keyframes laserScan { 0%, 100% { top: 32%; } 50% { top: 68%; } }
+.scanner-frame { position: absolute; left: 8%; right: 8%; top: 28%; bottom: 28%; border: 2px solid rgba(255,255,255,.6); border-radius: 12px; box-shadow: 0 0 0 999px rgba(0,0,0,.35); pointer-events: none; }
 .scan-status { margin-top: 12px; padding: 10px 12px; border-radius: 12px; font-size: .8rem; font-weight: 700; border: 1px solid var(--taupe-200); background: var(--surface-2); color: var(--muted); white-space: pre-line; }
 .scan-status.success { color: var(--hunter); border-color: var(--hunter); background: var(--hunter-50); }
 .scan-status.error { color: var(--danger); border-color: #e3b9b2; background: var(--danger-50); text-align: left; line-height: 1.6; }
@@ -337,7 +342,7 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1099px) {
-  .cust-grid { grid-template-columns: 1fr; }
+  .cust-grid { grid-template-columns: minmax(0, 1fr); }
   .cust-grid .cart-col { position: static; }
 }
 @media (max-width: 959px) {
@@ -355,7 +360,7 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
   }
   .bn-item {
     background: transparent; border: 0; color: #a9bba6; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    padding: 7px 2px; font-size: .65rem; font-weight: 700; border-radius: 12px; cursor: pointer;
+    padding: 7px 2px; font-size: .7rem; font-weight: 700; border-radius: 12px; cursor: pointer;
   }
   .bn-item.active { color: #fff; background: var(--hunter); }
   .toast { bottom: 90px; right: 16px; left: 16px; max-width: none; text-align: center; }
@@ -369,6 +374,93 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
   .session-id { font-size: 1.6rem; }
   .task-actions { grid-template-columns: 1fr; }
   .manual-row { flex-direction: column; }
+}
+/* ---------- Mobile polish ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: hidden; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+button, .btn, .chip, .side-link, .bn-item, .icon-btn, .crate-row { touch-action: manipulation; }
+.search-box { width: 230px; max-width: 100%; }
+.modal-box { max-height: 94vh; max-height: 94dvh; overscroll-behavior: contain; }
+
+@media (max-width: 959px) {
+  /* 16px inputs stop mobile browsers from zooming the page on focus */
+  input:not([type=checkbox]), select, textarea { font-size: 16px; }
+  .btn { min-height: 44px; white-space: normal; text-align: center; line-height: 1.25; }
+  .btn-sm { min-height: 40px; }
+  .icon-btn { width: 42px; height: 42px; }
+  .chip { min-height: 40px; display: inline-flex; align-items: center; }
+  .card { padding: 16px; border-radius: 14px; margin-bottom: 14px; }
+  .topbar { padding-top: calc(10px + env(safe-area-inset-top)); }
+  .bn-item { min-height: 54px; }
+  .cart-fab { bottom: calc(78px + env(safe-area-inset-bottom)); }
+  .toast { bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 640px) {
+  .container { padding: 12px 12px 120px; }
+  .section-title { font-size: 1.2rem; }
+
+  /* Landing */
+  .hero { padding: 18px 16px 22px; gap: 16px; }
+  .hero h1 { font-size: 1.85rem; }
+  .hero p { font-size: .9rem; margin-bottom: 18px; }
+  .hero-media { min-height: 150px; border-radius: 16px; }
+  .hero-media img { min-height: 150px; max-height: 170px; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .hero-stats { gap: 18px; }
+  .hero-stats b { font-size: 1.3rem; }
+  .promo { padding: 20px 16px; }
+  .promo .btn { width: 100%; }
+  #view-landing .grid-4 { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+  /* Grids */
+  .grid-2 { grid-template-columns: minmax(0, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .kpi.card { padding: 12px; gap: 10px; }
+  .kpi .ico { width: 36px; height: 36px; }
+  .kpi strong { font-size: 1.35rem; }
+  .kpi small { font-size: .7rem; }
+
+  /* Customer */
+  .session-card { flex-direction: column; align-items: stretch; }
+  .session-card > div:last-child { align-items: stretch !important; }
+  .session-card > div:last-child > div { justify-content: space-between; }
+  .scan-cta { flex-direction: column; text-align: center; gap: 12px; }
+  .scan-cta .grow { min-width: 0; }
+  .scan-cta .btn { width: 100%; }
+  .search-box { width: 100%; }
+  .card-head { align-items: stretch; }
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .pc-body { padding: 9px; }
+  .pc-body h4 { font-size: .8rem; }
+  .cart-row { flex-wrap: wrap; }
+  .cart-row .info { flex: 1 1 100%; }
+  .cart-row .side { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+  .pin-digits { font-size: 1.8rem; letter-spacing: 3px; }
+  .bill-total span:last-child { font-size: 1.4rem; }
+
+  /* Staff / counter / admin */
+  .task-top { flex-wrap: wrap; }
+  .task-top .grow { flex: 1 1 calc(100% - 70px); }
+  .task-actions { grid-template-columns: 1fr; }
+  .handover-box .btn { width: 100%; }
+  .login-wrap { margin: 8px auto; }
+
+  /* Modals become bottom sheets */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal-box {
+    max-width: 100%; border-radius: 22px 22px 0 0; max-height: 92vh; max-height: 92dvh;
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  }
+  .scanner-viewport { width: min(100%, calc(48vh * .75)); }
+}
+
+@media (max-width: 380px) {
+  .mbrand .brand-name { font-size: 1rem; }
+  .top-actions { gap: 6px; }
+  .icon-btn { width: 38px; height: 38px; }
+  .hero h1 { font-size: 1.6rem; }
+  .session-id { font-size: 1.45rem; }
 }
 </style>
 </head>
@@ -419,7 +511,6 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
       <section id="view-landing">
         <div class="hero">
           <div>
-            <span class="eyebrow">Trolley-free supermarket shopping</span>
             <h1>Smart Shopping. <span>Zero Trolley Hassle.</span></h1>
             <p>Scan what you want on the shelf with your phone. Our staff pick it for you and have your crate waiting at the collection counter within five minutes.</p>
             <div class="hero-actions">
@@ -441,18 +532,18 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
         <h2 class="section-title">How PocketMart works</h2>
         <p class="section-sub">Four simple steps from the shelf to your bag.</p>
         <div class="grid grid-4">
-          <div class="card step-card"><span class="step-num">1</span><div class="ico feat-ico"><span class="ico" data-icon="user" data-size="22"></span></div><h4>Get your customer ID</h4><p>Start a session and receive a unique ID and pickup PIN.</p></div>
-          <div class="card step-card"><span class="step-num">2</span><div class="ico feat-ico"><span class="ico" data-icon="scan" data-size="22"></span></div><h4>Scan the shelf barcode</h4><p>Point your phone at any product or type the number in.</p></div>
-          <div class="card step-card"><span class="step-num">3</span><div class="ico feat-ico"><span class="ico" data-icon="cart" data-size="22"></span></div><h4>Add to cart</h4><p>Choose Add to Cart and staff get your request straight away.</p></div>
-          <div class="card step-card"><span class="step-num">4</span><div class="ico feat-ico"><span class="ico" data-icon="package" data-size="22"></span></div><h4>Collect at the counter</h4><p>Show your PIN at Counter #2 and pick up your ready crate.</p></div>
+          <div class="card step-card"><span class="step-num">1</span><div class="ico feat-ico"><span class="ico" data-icon="user" data-size="22"></span></div><h3>Get your customer ID</h3><p>Start a session and receive a unique ID and pickup PIN.</p></div>
+          <div class="card step-card"><span class="step-num">2</span><div class="ico feat-ico"><span class="ico" data-icon="scan" data-size="22"></span></div><h3>Scan the shelf barcode</h3><p>Point your phone at any product or type the number in.</p></div>
+          <div class="card step-card"><span class="step-num">3</span><div class="ico feat-ico"><span class="ico" data-icon="cart" data-size="22"></span></div><h3>Add to cart</h3><p>Choose Add to Cart and staff get your request straight away.</p></div>
+          <div class="card step-card"><span class="step-num">4</span><div class="ico feat-ico"><span class="ico" data-icon="package" data-size="22"></span></div><h3>Collect at the counter</h3><p>Show your PIN at Counter #2 and pick up your ready crate.</p></div>
         </div>
 
         <h2 class="section-title" style="margin-top:26px;">Why shoppers love it</h2>
         <div class="grid grid-4">
-          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="zap" data-size="22"></span></div><h4>Faster trips</h4><p>No queues at the aisles and no heavy trolley to steer.</p></div>
-          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="users" data-size="22"></span></div><h4>Less crowding</h4><p>Fewer trolleys means more room for everyone in the store.</p></div>
-          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="bell" data-size="22"></span></div><h4>Live order status</h4><p>See when each item is accepted, picked and ready.</p></div>
-          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="lock" data-size="22"></span></div><h4>Secure handover</h4><p>Your crate is only released against your pickup PIN.</p></div>
+          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="zap" data-size="22"></span></div><h3>Faster trips</h3><p>No queues at the aisles and no heavy trolley to steer.</p></div>
+          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="users" data-size="22"></span></div><h3>Less crowding</h3><p>Fewer trolleys means more room for everyone in the store.</p></div>
+          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="bell" data-size="22"></span></div><h3>Live order status</h3><p>See when each item is accepted, picked and ready.</p></div>
+          <div class="card benefit"><div class="ico feat-ico ochre"><span class="ico" data-icon="lock" data-size="22"></span></div><h3>Secure handover</h3><p>Your crate is only released against your pickup PIN.</p></div>
         </div>
 
         <div class="promo">
@@ -499,7 +590,7 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
 
               <div class="card-head" style="margin-bottom:10px;">
                 <div><h3>Shelf products</h3><p>Or tap a product to add it directly.</p></div>
-                <div style="width:230px; max-width:100%;"><input type="text" id="catalog-search-input" placeholder="Search products..." oninput="renderCatalog()"></div>
+                <div class="search-box"><input type="text" id="catalog-search-input" placeholder="Search products..." oninput="renderCatalog()"></div>
               </div>
               <div class="chips" id="dept-filter-chips"></div>
               <div class="product-grid" id="shelf-products-container"></div>
@@ -729,7 +820,7 @@ canvas#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-inde
 <div id="product-decision-modal" class="modal-overlay">
   <div class="modal-box">
     <div style="display:flex; gap:16px; align-items:flex-start;">
-      <img id="decision-img" class="product-thumb" style="width:84px; height:84px;" src="" alt="" onerror="imgFallback(this)">
+      <img id="decision-img" class="product-thumb" style="width:84px; height:84px;" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" onerror="imgFallback(this)">
       <div style="flex:1; min-width:0;">
         <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px; flex-wrap:wrap;">
           <span class="tag" id="decision-dept">DAIRY</span>
@@ -997,8 +1088,13 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { t.style.display = 'none'; }, 2800);
 }
-function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+// Lock page scroll behind open sheets so phones don't scroll the page underneath
+function syncModalLock() {
+  const anyOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex');
+  document.body.style.overflow = anyOpen ? 'hidden' : '';
+}
+function openModal(id) { document.getElementById(id).style.display = 'flex'; syncModalLock(); }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; syncModalLock(); }
 function toggleMute() {
   audioMuted = !audioMuted;
   document.getElementById('mute-btn').innerHTML = ic(audioMuted ? 'volumeoff' : 'volume');
@@ -1289,7 +1385,7 @@ async function startScanner() {
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: { facingMode: { ideal: 'environment' }, width: { ideal: 720 }, height: { ideal: 1280 }, aspectRatio: { ideal: 0.75 } },
         audio: false
       });
     } catch (e) {
